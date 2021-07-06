@@ -16,13 +16,13 @@ export const api = {
     return (await instance.get('/textTocat')).data;
   },
   getCaption: async ({
-    InitialisationDic,
+    Initialisation,
     postCategory, 
     postRequest , 
     postLanguage
     }) => {
     return (await instance.post('caption', {
-      InitialisationDic,
+      Initialisation: JSON.stringify(Initialisation),
       postCategory, 
       postRequest , 
       postLanguage

@@ -11,19 +11,19 @@ export const MyPublicationsView = ({
   catOptions,
   formState
 }) => {
-
   const [lang, setLang] = useState();
   const [category, setCategory] = useState();
   const [concept, setConcept] = useState('');
   const [design, setDesign] = useState({});
+  const [caption, setCaption] = useState({});
 
   const generatePublicationButton = () => {
     api.getCaption({
-      InitialisationDic: Object.values(formState).filter(value => value.Category && value.Concept && value.Caption),
+      Initialisation: Object.values(formState).filter(value => value.Category && value.Concept && value.Caption),
       postCategory: category,
       postRequest: concept,
       postLanguage: lang
-    }).then(res => console.log(res));
+    }).then(res => setCaption(res));
     api.getDesign({
       postCategory: category,
       postRequest: concept,
@@ -89,6 +89,8 @@ export const MyPublicationsView = ({
             className="h-full w-full mb-4"
             header="Caption"
             placeholder="Caption"
+            disabled
+            value={caption[`${lang} Caption`] || caption['EN Caption']}
           />
         </div>
         <div className="flex flex-col h-full w-full md:w-1/2 md:mr-4">
