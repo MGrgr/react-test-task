@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { api } from "../api"
 import { Button } from "../components/common/button"
 import { Select } from "../components/common/select"
@@ -11,11 +11,11 @@ export const MyPublicationsView = ({
   catOptions,
   formState
 }) => {
-  const [lang, setLang] = useState(Object.values(langOptions)[0]);
-  const [category, setCategory] = useState(Object.values(catOptions)[0]);
+  const [lang, setLang] = useState();
+  const [category, setCategory] = useState();
   const [concept, setConcept] = useState('');
   const [design, setDesign] = useState({});
-  const [caption, setCaption] = useState({});
+  const [caption, setCaption] = useState('');
 
   const generatePublicationButton = () => {
     api.getCaption({
@@ -23,7 +23,10 @@ export const MyPublicationsView = ({
       postCategory: category,
       postRequest: concept,
       postLanguage: lang
-    }).then(res => setCaption(res));
+    }).then(res => {
+      
+      setCaption(res[`${lang} Caption`] || res['EN Caption']);
+    });
     api.getDesign({
       postCategory: category,
       postRequest: concept,
@@ -32,6 +35,11 @@ export const MyPublicationsView = ({
       setDesign(JSON.parse(res));
     });
   }
+
+  useEffect(() => {
+    lang || setLang(Object.values(langOptions)[0]);
+    category || setCategory(Object.values(catOptions)[0]);
+  }, [langOptions, catOptions, lang, category])
   return <div>
     <h1 className="text-3xl font-extrabold">
       My publications
@@ -90,7 +98,7 @@ export const MyPublicationsView = ({
             header="Caption"
             placeholder="Caption"
             disabled
-            value={caption[`${lang} Caption`] || caption['EN Caption']}
+            value={caption}
           />
         </div>
         <div className="flex flex-col h-full w-full md:w-1/2 md:mr-4">

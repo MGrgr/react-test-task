@@ -42,7 +42,17 @@ export const MyBrandView = ({
           onChange={handleFieldChange('Category', index)}
         >
           {Object.entries(catOptions).map(([optionKey, optionValue], index) => {
-            return <option key={`catOption${index}`} value={optionValue}>{optionKey}</option>
+            return <option  
+                      key={`catOption${index}`}
+                      value={optionValue}
+                      onChange={() => {
+                        console.log(optionKey);
+                        handleFieldChange('categoryText')({target: { value: optionKey}})
+                        }
+                      }
+                    >
+                      {optionKey}
+                    </option>
           })}
         </Select>
       </div>

@@ -5,6 +5,11 @@ module.exports = {
   presets: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    extend: {
+      boxShadow: {
+        'tabActive': '0 0 1px 1px #F6CBC6',
+      }
+    },
     screens: {
       sm: '640px',
       md: '768px',

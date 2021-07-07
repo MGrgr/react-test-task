@@ -7,7 +7,9 @@ export const MainLayout = ({
 }) => (
     <div className="flex flex-row bg-defaultGrey w-full h-full">
         <Sidebar>
-            <div className="mt-10 md:mt-20"></div>
+            <div className="mt-6 md:mt-9 mb-6">
+                <img alt="logo" src="/images/Group 13.svg"/>
+            </div>
             <Link to="/brand">
                 <div className="flex flex-row flex-nowrap items-center"> 
                     <UserCircleIcon className="mr-3" width={20} height={20}/>
