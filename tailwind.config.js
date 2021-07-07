@@ -6,9 +6,19 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      animation: {
+        'circular-dash': 'circular-dash 2s ease-in infinite',
+      },
       boxShadow: {
         'tabActive': '0 0 1px 1px #F6CBC6',
-      }
+      },
+      keyframes: {
+        'circular-dash': {
+          '0%': { 'stroke-dasharray': '1px, 200px', 'stroke-dashoffset': '0' },
+          '50%': { 'stroke-dasharray': '100px, 200px', 'stroke-dashoffset': '-15px' },
+          '100%': { 'stroke-dasharray': '100px, 200px', 'stroke-dashoffset': '-125px' },
+        },
+      },
     },
     screens: {
       sm: '640px',

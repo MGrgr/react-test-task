@@ -5,6 +5,7 @@ import { Select } from "../components/common/select"
 import { Tab } from "../components/common/tab"
 import { TextArea } from "../components/common/textarea"
 import { TextField } from "../components/common/textfield"
+import { Loader } from "../components/common/loader"
 
 export const MyPublicationsView = ({
   langOptions,
@@ -16,16 +17,25 @@ export const MyPublicationsView = ({
   const [concept, setConcept] = useState('');
   const [design, setDesign] = useState({});
   const [caption, setCaption] = useState('');
+  const [load, setLoad] = useState({
+    caption: false,
+    design: false,
+  });
 
   const generatePublicationButton = () => {
+    setLoad({
+      caption: true,
+      design: true,
+    });
     api.getCaption({
       Initialisation: Object.values(formState).filter(value => value.Category && value.Concept && value.Caption),
       postCategory: category,
       postRequest: concept,
       postLanguage: lang
     }).then(res => {
-      
       setCaption(res[`${lang} Caption`] || res['EN Caption']);
+    }).finally(() => {
+      setLoad((prev) => ({...prev, caption: false}));
     });
     api.getDesign({
       postCategory: category,
@@ -33,6 +43,8 @@ export const MyPublicationsView = ({
       postLanguage: lang
     }).then(res => {
       setDesign(JSON.parse(res));
+    }).finally(() => {
+      setLoad((prev) => ({...prev, design: false}));
     });
   }
 
@@ -88,7 +100,14 @@ export const MyPublicationsView = ({
           onChange={(event) => setConcept(event.target.value)}
         />
         <div className="mt-4 md:mt-0 lg:w-2/3">
-          <Button onClick={generatePublicationButton}>Generate a publication</Button>
+          <Button className="relative" onClick={generatePublicationButton} disabled={(load.caption || load.design)}>
+            Generate a publication
+            {
+              (load.design || load.caption) 
+              ? <Loader className="absolute top-3 left-1/2" size={20} width={4}/>
+              : undefined
+            }
+        </Button>
         </div>
       </div>
       <div className="flex flex-row flex-wrap md:flex-nowrap mt-5 h-auto md:h-72">
