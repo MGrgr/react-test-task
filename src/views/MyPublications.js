@@ -11,8 +11,8 @@ export const MyPublicationsView = ({
   catOptions,
   formState
 }) => {
-  const [lang, setLang] = useState();
-  const [category, setCategory] = useState();
+  const [lang, setLang] = useState(Object.values(langOptions)[0]);
+  const [category, setCategory] = useState(Object.values(catOptions)[0]);
   const [concept, setConcept] = useState('');
   const [design, setDesign] = useState({});
   const [caption, setCaption] = useState({});
