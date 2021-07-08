@@ -21,9 +21,9 @@ const App = () => {
     if (Object.values(catOptions).length === 0) {
       api.getCategpriesToDisplay().then(categories => {
         setCatOptions(categories);
-        Object.entries(categories).forEach(([, categoryValue], index) => {
+        Object.entries(categories).forEach(([categoryKey,], index) => {
           formState[index] = {
-            Category: categoryValue,
+            Category: categoryKey,
             Concept: undefined,
             Caption: undefined,
           }

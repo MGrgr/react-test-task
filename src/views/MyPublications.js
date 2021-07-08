@@ -28,7 +28,13 @@ export const MyPublicationsView = ({
       design: true,
     });
     api.getCaption({
-      Initialisation: Object.values(formState).filter(value => value.Category && value.Concept && value.Caption),
+      Initialisation: Object.values(formState)
+        .filter(value => value.Category && value.Concept && value.Caption)
+        .map(value => ({
+          ...value,
+          Concept: `${value.Category} ${value.Concept}`,
+          Category: catOptions[value.Category]
+        })),
       postCategory: category,
       postRequest: concept,
       postLanguage: lang

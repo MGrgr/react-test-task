@@ -33,23 +33,18 @@ export const MyBrandView = ({
         <h2 className="text-xl font-bold">Caption</h2>
       </div>
     </div>
-    {Object.entries(catOptions).map((_, index) => {
+    {Object.entries(catOptions).map(([key], index) => {
       return <div key={index} className="flex flex-row flex-wrap mt-5">
       <div className="w-full md:w-1/4 md:mr-5">
         <Select 
           className="mt-4 w-full"
-          value={formState[index] ? formState[index].Category : undefined} 
+          value={formState[index] ? formState[index].Category : key} 
           onChange={handleFieldChange('Category', index)}
         >
-          {Object.entries(catOptions).map(([optionKey, optionValue], index) => {
+          {Object.entries(catOptions).map(([optionKey], index) => {
             return <option  
                       key={`catOption${index}`}
-                      value={optionValue}
-                      onChange={() => {
-                        console.log(optionKey);
-                        handleFieldChange('categoryText')({target: { value: optionKey}})
-                        }
-                      }
+                      value={optionKey}
                     >
                       {optionKey}
                     </option>
