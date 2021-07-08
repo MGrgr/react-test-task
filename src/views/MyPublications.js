@@ -27,15 +27,15 @@ export const MyPublicationsView = ({
       design: true,
     });
     api.getCaption({
-      Initialisation: Object.values(formState)
+      Initialisation:  formState
         .filter(value => value.Category && value.Concept && value.Caption)
         .map(value => ({
           ...value,
           Concept: `${value.Category} ${value.Concept}`,
           Category: catOptions[value.Category]
         })),
-      postCategory: category,
-      postRequest: concept,
+      postCategory: catOptions[category],
+      postRequest: `${category} ${concept}`,
       postLanguage: lang
     }).then(res => {
       setCaption(res[`${lang} Caption`] || res['EN Caption']);
@@ -43,7 +43,7 @@ export const MyPublicationsView = ({
       setLoad((prev) => ({...prev, caption: false}));
     });
     api.getDesign({
-      postCategory: category,
+      postCategory: catOptions[category],
       postRequest: concept,
       postLanguage: lang
     }).then(res => {
@@ -55,7 +55,7 @@ export const MyPublicationsView = ({
 
   useEffect(() => {
     lang || setLang(Object.values(langOptions)[0]);
-    category || setCategory(Object.values(catOptions)[0]);
+    category || setCategory(Object.keys(catOptions)[0]);
   }, [langOptions, catOptions, lang, category])
   return <div>
     <h1 className="text-3xl font-extrabold">
@@ -96,7 +96,7 @@ export const MyPublicationsView = ({
           }}
           className="mt-4 md:mt-0 md:mr-4 w-full lg:w-1/3"
         >
-          {Object.entries(catOptions).map(([key,value], index) => <option key={`catOption${index}`} value={value}>{key}</option>)}
+          {Object.keys(catOptions).map((cat, index) => <option key={`catOption${index}`} value={cat}>{cat}</option>)}
         </Select>
         <TextField 
           value={concept} 
@@ -131,7 +131,7 @@ export const MyPublicationsView = ({
           <TextArea
             className="h-1/2 mt-4 w-full"
             header="Text to appear on image"
-            value={design[' Text to appear']}
+            value={design['Text to appear']}
             placeholder="Text"
             disabled
           />

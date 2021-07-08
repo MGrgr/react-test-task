@@ -8,9 +8,20 @@ export const MyBrandView = ({
 }) => {
 
   const handleFieldChange = (field, index) => (event) => setFormState((prev) => {
-    const newState = {...prev};
+    const newState = [...prev];
+    const regex = /[ ,.;:!?]+/;
     if (newState[index]) {
-      newState[index][field] = event.target.value;
+      let wordCount = newState.reduce((wordCount, curr) => {
+        return wordCount += Object.values(curr).join(' ').split(regex).length;
+      }, 0);
+      wordCount += event.target.value.split(regex).length
+      console.log(wordCount);
+      if (wordCount <  1500) {
+        newState[index][field] = event.target.value;
+      }
+      else {
+        newState[index][field] = undefined;
+      }
     }
     return newState;
   });
@@ -57,6 +68,7 @@ export const MyBrandView = ({
           placeholder="Concept"
           value={formState[index] ? formState[index].Concept : undefined}
           onChange={handleFieldChange('Concept', index)}
+          onPaste={handleFieldChange('Concept', index)}
         />
       </div>
       <div className="w-full md:w-1/3 flex flex-col">
@@ -65,6 +77,7 @@ export const MyBrandView = ({
           placeholder="Caption"
           value={formState[index] ? formState[index].Caption : undefined}
           onChange={handleFieldChange('Caption', index)}
+          onPaste={handleFieldChange('Caption', index)}
         />
       </div>
     </div>
