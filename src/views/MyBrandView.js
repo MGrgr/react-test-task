@@ -7,24 +7,21 @@ export const MyBrandView = ({
   catOptions,
 }) => {
 
-  const handleFieldChange = (field, index) => (event) => setFormState((prev) => {
+  const handleFieldChange = (field, index) => (event) => {
+    event.preventDefault();
+    setFormState((prev) => {
     const newState = [...prev];
-    const regex = /[ ,.;:!?]+/;
     if (newState[index]) {
-      let wordCount = newState.reduce((wordCount, curr) => {
-        return wordCount += Object.values(curr).join(' ').split(regex).length;
+      const wordCount = newState.reduce((wordCount, curr) => {
+        return wordCount += Object.values(curr).join(' ').split(/[ ,.;:!?]/).length;
       }, 0);
-      wordCount += event.target.value.split(regex).length
-      console.log(wordCount);
-      if (wordCount <  1500) {
+      if (wordCount <= 1500) {
         newState[index][field] = event.target.value;
-      }
-      else {
-        newState[index][field] = undefined;
       }
     }
     return newState;
-  });
+  })
+};
 
   return <div>
     <h1 className="text-3xl font-extrabold">
