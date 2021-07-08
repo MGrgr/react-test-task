@@ -5,7 +5,6 @@ import { Select } from "../components/common/select"
 import { Tab } from "../components/common/tab"
 import { TextArea } from "../components/common/textarea"
 import { TextField } from "../components/common/textfield"
-import { Loader } from "../components/common/loader"
 
 export const MyPublicationsView = ({
   langOptions,
@@ -106,13 +105,8 @@ export const MyPublicationsView = ({
           onChange={(event) => setConcept(event.target.value)}
         />
         <div className="mt-4 md:mt-0 lg:w-2/3">
-          <Button className="relative" onClick={generatePublicationButton} disabled={(load.caption || load.design)}>
+          <Button className="relative" onClick={generatePublicationButton} loading={(load.caption || load.design)} disabled={(load.caption || load.design)}>
             Generate a publication
-            {
-              (load.design || load.caption) 
-              ? <Loader className="absolute top-3 left-1/2" size={20} width={4}/>
-              : undefined
-            }
         </Button>
         </div>
       </div>

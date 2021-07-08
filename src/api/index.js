@@ -3,7 +3,7 @@ import axios from 'axios';
 const instance = axios.create({
   // baseURL: 'https://social-web-app-duplicate.herokuapp.com/',
   baseURL: 'https://socialmanagerbot.herokuapp.com/',
-  timeout: 5000
+  timeout: 10000
 });
 
 export const api = {
